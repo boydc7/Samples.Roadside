@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+message AssistantDispatch {
+  string    customerId = 1;
+  string    assistantId = 2;
+  bool      dispatched = 3;
+}

@@ -1,0 +1,234 @@
+{
+	"info": {
+		"_postman_id": "a31891aa-551e-49b8-8bbd-864bcfb685c3",
+		"name": "Samples",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "5133359"
+	},
+	"item": [
+		{
+			"name": "GetAssistants",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/assistants",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"assistants"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomers",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/customers",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"customers"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetAssistant",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/assistants/__PUT_ID_HERE__",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"assistants",
+						"__PUT_ID_HERE__"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetCustomer",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/customers/__PUT_ID_HERE__",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"customers",
+						"__PUT_ID_HERE__"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutAssistantLocation",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"Latitude\": 38.782000,\n    \"Longitude\": 76.851000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/assistants/__PUT_ID_HERE__/location",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"assistants",
+						"__PUT_ID_HERE__",
+						"location"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetFindNearestAssistants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/roadside/find?latitude=38.778000&longitude=76.842000&Limit=15",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"roadside",
+						"find"
+					],
+					"query": [
+						{
+							"key": "latitude",
+							"value": "38.778000"
+						},
+						{
+							"key": "longitude",
+							"value": "76.842000"
+						},
+						{
+							"key": "Limit",
+							"value": "15"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PostReserveAssistant",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"CustomerId\": \"__PUT_ID_HERE__\",\n    \"Latitude\": 38.778000,\n    \"Longitude\": 76.842000\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/roadside/reserve",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"roadside",
+						"reserve"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "PutReleaseAssistant",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"CustomerId\": \"__PUT_ID_HERE__\",\n    \"AssistantId\": \"__PUT_ID_HERE__\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/roadside/release",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"roadside",
+						"release"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

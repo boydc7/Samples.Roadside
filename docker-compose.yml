@@ -1,0 +1,66 @@
+# NOTE: Use the docker-up-local.sh bash script to actually docker up the local environment
+# NOTE: This is meant for creating a local/entirely contained docker environment
+version: "3.8"
+services:
+  roadside-sql:
+    container_name: roadside-sql
+    image: mcr.microsoft.com/mssql/server
+    hostname: localhost
+    ports:
+      - 1782:1433
+    environment:
+      ACCEPT_EULA: 1
+      SA_PASSWORD: RoadsideAssistance!
+      MSSQL_PID: Developer
+  roadside-es:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.3.2
+    container_name: roadside-es
+    ports:
+      - 1792:9200
+    environment:
+      - discovery.type=single-node
+    healthcheck:
+      interval: 9s
+      retries: 2
+      timeout: 7s
+      test: curl --fail -s http://roadside-es:9200/_cat/health || exit 1
+  roadside-zookeeper:
+    image: wurstmeister/zookeeper
+    container_name: roadside-zookeeper
+    ports:
+      - 2181
+  roadside-kafka:
+    container_name: roadside-kafka
+    image: wurstmeister/kafka
+    depends_on:
+      - roadside-zookeeper
+    ports:
+      - 9092:9092
+    environment:
+      KAFKA_CREATE_TOPICS: "roadside-assistant-location:1:1,roadside-assistant-dispatch:1:1"
+      KAFKA_ZOOKEEPER_CONNECT: roadside-zookeeper:2181
+      KAFKA_ADVERTISED_HOST_NAME: roadside-kafka
+  roadside-api:
+    build:
+      context: .
+      args:
+        buildconfig: Release
+      dockerfile: ./Dockerfile
+    restart: on-failure
+    container_name: roadside-api
+    ports:
+      - 8082:8082
+    environment:
+      ROADSIDE_CONNECTIONSTRINGS__ELASTICSEARCH: http://roadside-es:9200
+      ROADSIDE_CONNECTIONSTRINGS__SQLDATA: Server=roadside-sql,1433;User Id=sa;Password=RoadsideAssistance!;MultipleActiveResultSets=true;Connect Timeout=7;Connection Lifetime=3600;Encrypt=false;
+      ROADSIDE_CONNECTIONSTRINGS__KAFKA: roadside-kafka:9092
+    depends_on:
+      - roadside-es
+      - roadside-sql
+      - roadside-zookeeper
+      - roadside-kafka
+    healthcheck:
+      interval: 99s
+      retries: 2
+      timeout: 19s
+      test: curl --fail -s http://localhost:8082/ping || exit 1
